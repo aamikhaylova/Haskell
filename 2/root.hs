@@ -16,18 +16,18 @@ root :: Double -> Double
 -- знак функции на левом конце отрезка (True означает > 0, False означает <= 0),
 -- знак функции на правом конце отрезка,
 -- заданная точность для вычисления корня.
-rootaux :: Double -> Double -> Bool -> Bool -> Double -> Double
+root' :: Double -> Double -> Bool -> Bool -> Double -> Double
 
 -- Функция cos(x) - x, корни которой надо вычислить.
 func :: Double -> Double
 func x = cos x - x
 
 -- Из графика видно, что корень функции cos x - x лежит на отрезке [0; pi/2], поэтому ищем его там.
-root eps = rootaux 0.0 (pi / 2) True False eps
+root eps = root' 0.0 (pi / 2) True False eps
 -- Используем метод бисекции отрезка для поиска приближенного значения корня.
-rootaux a b fa fb eps | (b - a) < eps = a
-			| fa == (func ((b + a) / 2) > 0.0) = rootaux ((b + a) / 2) b (func ((b + a) / 2) > 0.0) fb eps
-			| otherwise = rootaux a ((b + a) / 2) fa (func ((b + a) / 2) > 0.0) eps
+root' a b fa fb eps | (b - a) < eps = a
+			| fa == (func ((b + a) / 2) > 0.0) = root' ((b + a) / 2) b (func ((b + a) / 2) > 0.0) fb eps
+			| otherwise = root' a ((b + a) / 2) fa (func ((b + a) / 2) > 0.0) eps
 
 -- Тесты.
 test = (root 0.1, root 0.01, root 0.001, root 0.0000001)
